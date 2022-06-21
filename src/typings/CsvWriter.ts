@@ -8,7 +8,7 @@ export class CsvWriter {
         this.rowNames = rowNames;
         if (!fs.existsSync(this.file)) {
             let rowsString: string = rowNames.join(",");
-            fs.writeFileSync(this.file, rowsString + "\n");
+            fs.writeFileSync(this.file, rowsString);
         }
     }
 
@@ -17,7 +17,7 @@ export class CsvWriter {
             throw new Error("Row length does not match row names length");
         }
 
-        fs.appendFileSync(this.file, row.join(",") + "\n");
+        fs.appendFileSync(this.file, "\n" + row.join(","));
     }
 
     getRowByFirstValue(value: string): string[] {
