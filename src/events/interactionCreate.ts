@@ -33,7 +33,6 @@ export default new Event("interactionCreate", async (interaction) => {
             // todo: check modal address
             await interaction.deferReply({ephemeral: true});
             let interactionData = client.writer.getRowByFirstValue(interaction.user.id.toString());
-            console.log(interactionData)
             if(interactionData.length > 0) {
                 await interaction.followUp({content: `Your wallet address is \`${interactionData[1]}\``, ephemeral: true});
             } else {
@@ -50,7 +49,8 @@ export default new Event("interactionCreate", async (interaction) => {
                 onCurve = false
             }
             if(onCurve) {
-                client.writer.writeRow([interaction.user.id, address])
+                let userId = interaction.user.id.toString()
+                client.writer.updateRow(userId, [userId, address])
                 interaction.reply({content: "Successfully set your wallet address", ephemeral: true})
             } else {
                 interaction.reply({content: "Invalid address", ephemeral: true})
